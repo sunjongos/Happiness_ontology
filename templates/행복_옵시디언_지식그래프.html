@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>행복 지식 그래프 (Obsidian Style Graph View)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #111111;
+            color: #dcddde;
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+
+        #graph-container {
+            flex: 1;
+            height: 100vh;
+            position: relative;
+            background: radial-gradient(circle at center, #1e1e24 0%, #0d0d11 100%);
+        }
+
+        #side-panel {
+            width: 380px;
+            background-color: #16161a;
+            border-left: 1px solid #2b2b36;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+            overflow-y: auto;
+        }
+
+        .obsidian-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #a855f7;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid #2b2b36;
+            padding-bottom: 0.8rem;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            background-color: #24242e;
+            border: 1px solid #3b3b4f;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .search-box:focus { border-color: #a855f7; }
+
+        .node-detail-card {
+            background-color: #202029;
+            border: 1px solid #323242;
+            border-radius: 12px;
+            padding: 1.2rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .node-type-tag {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .stats-box {
+            background: #1a1a22;
+            border-radius: 8px;
+            padding: 0.8rem;
+            font-size: 0.82rem;
+            color: #94a3b8;
+        }
+
+        .legend { display: flex; flex-wrap: wrap; gap: 0.5rem; font-size: 0.8rem; }
+        .legend-item { display: flex; align-items: center; gap: 0.4rem; background: #22222d; padding: 0.3rem 0.6rem; border-radius: 6px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    </style>
+</head>
+<body>
+
+<div id="graph-container"></div>
+
+<div id="side-panel">
+    <div class="obsidian-title">
+        <span>🔮 Obsidian Graph View</span>
+    </div>
+
+    <input type="text" id="search" class="search-box" placeholder="노드 및 키워드 검색...">
+
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#a855f7;"></div> 마스터 허브</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#06b6d4;"></div> 개념 온톨로지</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div> 수리 방정식</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#10b981;"></div> NotebookLM RAG</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f43f5e;"></div> 원천 출처</div>
+    </div>
+
+    <div class="stats-box">
+        📊 총 노드: <strong>22개</strong> | 연결 엣지: <strong>21개</strong><br>
+        💾 DB 위치: <code>happiness_knowledge.db</code>
+    </div>
+
+    <div id="node-info" class="node-detail-card">
+        <span class="node-type-tag" style="background: rgba(168,85,247,0.2); color: #a855f7;">GUIDE</span>
+        <h3 style="color: #ffffff; margin-bottom: 0.5rem;">노드를 클릭하세요</h3>
+        <p style="color: #94a3b8;">그래프 상의 노드를 선택하면 해당 데이터베이스의 상세 팩트와 수리적 인과관계가 이곳에 표시됩니다.</p>
+    </div>
+</div>
+
+<script>
+    const rawNodes = [{"id": "hub-master", "label": "🧠 서은국 교수의 《행복의 기원》", "group": "master", "type": "Master Hub Node", "color": "#a855f7", "size": 35, "details": "연세대 심리학과 서은국 교수의 진화심리학·뇌과학 기반 행복론 통합 지식 허브 노드"}, {"id": "concept-1", "label": "💡 Set Point (유전적 기준점)", "group": "concept", "type": "개념 온톨로지", "color": "#06b6d4", "size": 22, "details": "<b>분류:</b> 유전학<br><b>설명:</b> 행복감의 40~50%를 결정하는 선천적 유전 외향성 기질<br><b>핵심 통찰:</b> 마음먹기가 아닌 타고난 기준점과 일상 환경 배치가 중요함"}, {"id": "concept-2", "label": "💡 Frequency vs Intensity (빈도 vs 강도)", "group": "concept", "type": "개념 온톨로지", "color": "#06b6d4", "size": 22, "details": "<b>분류:</b> 정서심리학<br><b>설명:</b> 행복은 로또 같은 한 방의 강도(Intensity)보다 소소한 즐거움의 빈도(Frequency)에 의존함<br><b>핵심 통찰:</b> 행복 = 강도가 아니라 빈도"}, {"id": "concept-3", "label": "💡 Neuromodulators (도파민 vs 세로토닌)", "group": "concept", "type": "개념 온톨로지", "color": "#06b6d4", "size": 22, "details": "<b>분류:</b> 뇌과학<br><b>설명:</b> 도파민은 탐색/기대 보상의 가속 페달, 세로토닌은 아군 집단 속 만족의 브레이크<br><b>핵심 통찰:</b> 뇌는 생존을 위한 신경 물질 신호 체계로 감정을 구동함"}, {"id": "concept-4", "label": "💡 Adaptation & Reset (정서적 적응)", "group": "concept", "type": "개념 온톨로지", "color": "#06b6d4", "size": 22, "details": "<b>분류:</b> 뇌과학<br><b>설명:</b> 자극에 익숙해지면 감정 신호가 0으로 리셋되는 생물학적 기전<br><b>핵심 통찰:</b> 돈/차/집 같은 물질적 조건은 적응되어 지속 효용이 낮음"}, {"id": "concept-5", "label": "💡 Ultra-sociality (초사회성)", "group": "concept", "type": "개념 온톨로지", "color": "#06b6d4", "size": 22, "details": "<b>분류:</b> 진화심리학<br><b>설명:</b> 호모 사피엔스가 혈연을 넘어 대규모 상호협력을 이루는 진화적 특성<br><b>핵심 통찰:</b> 뇌는 사람(양질의 아군)과 함께할 때 행복 전구가 가장 오래 유지됨"}, {"id": "concept-6", "label": "💡 Social Isolation (사회적 고립)", "group": "concept", "type": "개념 온톨로지", "color": "#06b6d4", "size": 22, "details": "<b>분류:</b> 사회학/의학<br><b>설명:</b> 뇌가 생존 최대 위협으로 인지하는 무관심/고립 상태<br><b>핵심 통찰:</b> 65세 이상에서 흡연, 음주, 비만보다 사망 위험에 치명적"}, {"id": "formula-1", "label": "📐 1", "group": "formula", "type": "수리 방정식", "color": "#3b82f6", "size": 26, "details": "<b>수식:</b> <code>행복 종합 구동 방정식</code><br><b>의미:</b> H = S + (F_pleasure / I_pleasure) * (R_quality / C_isolation) - A_adaptation"}, {"id": "formula-2", "label": "📐 2", "group": "formula", "type": "수리 방정식", "color": "#3b82f6", "size": 26, "details": "<b>수식:</b> <code>표현형 분산 분해 공식</code><br><b>의미:</b> V_P = V_G + V_E + 2*Cov(G,E) + V_(G*E) + e"}, {"id": "formula-3", "label": "📐 3", "group": "formula", "type": "수리 방정식", "color": "#3b82f6", "size": 26, "details": "<b>수식:</b> <code>쌍둥이 연구 ACE 모델 (팔코너 공식)</code><br><b>의미:</b> A = 2*(r_MZ - r_DZ), C = 2*r_DZ - r_MZ, E = 1 - r_MZ"}, {"id": "rag-1", "label": "🧪 진화적 자원 탐색과 도파민 펄스 기전", "group": "rag", "type": "NotebookLM RAG", "color": "#10b981", "size": 20, "details": "<b>주제:</b> 진화적 자원 탐색과 도파민 펄스 기전<br><b>인사이트:</b> 도파민(Dopamine)은 목표 달성 후의 지속적 만족이 아닌 '기대치 않은 보상(Unpredicted Reward)'을 향해 움직일 때 폭발 분비됩니다. 뇌는 도파민 펄스를 통해 개체를 새로운 보상 자원으로 유인하며, 자원을 획득하는 순간 감정을 빠르게 리셋(Adaptation)시켜 다음 보상을 찾도록 유도합니다.<br><b>출처:</b> Nature Neuroscience & 서은국 교수 강연 분석"}, {"id": "rag-2", "label": "🧪 호모 사피엔스 초사회성(Ultra-sociality)의 내분비학적 증명", "group": "rag", "type": "NotebookLM RAG", "color": "#10b981", "size": 20, "details": "<b>주제:</b> 호모 사피엔스 초사회성(Ultra-sociality)의 내분비학적 증명<br><b>인사이트:</b> 인간의 뇌는 타인과 무조건적 아군 관계를 형성할 때 옥시토신과 세로토닌을 동시 분비하여 신경 안정도를 극대화합니다. 사회적 고립 시 뇌의 편도체(Amygdala)는 생존 비상 신호(Fight or Flight)를 상시 켜두어 코르티솔 수치를 급증시키며, 이는 흡연·음주보다 높은 유병률을 유발합니다.<br><b>출처:</b> PNAS & Behavioral Genetics Twin Review"}, {"id": "rag-3", "label": "🧪 행복의 유전률(Heritability)과 에피제네틱스(Epigenetics) 환경 상호작용", "group": "rag", "type": "NotebookLM RAG", "color": "#10b981", "size": 20, "details": "<b>주제:</b> 행복의 유전률(Heritability)과 에피제네틱스(Epigenetics) 환경 상호작용<br><b>인사이트:</b> 행복감의 50%를 차지하는 유전성(VG)은 특정 단일 유전자가 아니라 외향성 및 정서 안정성에 관여하는 다유전(Polygenic) 기질입니다. 그러나 나머지 45%의 우연 환경(V_Chance)은 에피제네틱스 스위치 역할을 하여, 소소한 쾌감 자극이 자주 배치된 일상 환경일수록 유전적 셋포인트의 상한선(Upper Bound)에 도달하게 만듭니다.<br><b>출처:</b> Journal of Personality and Social Psychology"}, {"id": "rag-4", "label": "🧪 소소한 즐거움 카드(Joy Micro-Options)와 뇌의 주파수 반응", "group": "rag", "type": "NotebookLM RAG", "color": "#10b981", "size": 20, "details": "<b>주제:</b> 소소한 즐거움 카드(Joy Micro-Options)와 뇌의 주파수 반응<br><b>인사이트:</b> 뇌 정서계는 한 번의 거창한 보상(예: 10억 로또)에 대해 약 2~3주 내 적응 리셋을 완료하지만, 하루 3~4회의 소소한 즐거움(맛있는 커피, 좋아하는 음악, 편안한 대화)에 대해 매번 신선한 긍정 정서 신호를 생성합니다. 행복 구동 공식의 분자(F_pleasure)를 극대화하는 것이 과학적 혜안입니다.<br><b>출처:</b> NotebookLM Synthesis & Psychological Science"}, {"id": "rag-5", "label": "🧪 진화적 자원 탐색과 도파민 펄스 기전", "group": "rag", "type": "NotebookLM RAG", "color": "#10b981", "size": 20, "details": "<b>주제:</b> 진화적 자원 탐색과 도파민 펄스 기전<br><b>인사이트:</b> 도파민(Dopamine)은 목표 달성 후의 지속적 만족이 아닌 '기대치 않은 보상(Unpredicted Reward)'을 향해 움직일 때 폭발 분비됩니다. 뇌는 도파민 펄스를 통해 개체를 새로운 보상 자원으로 유인하며, 자원을 획득하는 순간 감정을 빠르게 리셋(Adaptation)시켜 다음 보상을 찾도록 유도합니다.<br><b>출처:</b> Nature Neuroscience & 서은국 교수 강연 분석"}, {"id": "rag-6", "label": "🧪 호모 사피엔스 초사회성(Ultra-sociality)의 내분비학적 증명", "group": "rag", "type": "NotebookLM RAG", "color": "#10b981", "size": 20, "details": "<b>주제:</b> 호모 사피엔스 초사회성(Ultra-sociality)의 내분비학적 증명<br><b>인사이트:</b> 인간의 뇌는 타인과 무조건적 아군 관계를 형성할 때 옥시토신과 세로토닌을 동시 분비하여 신경 안정도를 극대화합니다. 사회적 고립 시 뇌의 편도체(Amygdala)는 생존 비상 신호(Fight or Flight)를 상시 켜두어 코르티솔 수치를 급증시키며, 이는 흡연·음주보다 높은 유병률을 유발합니다.<br><b>출처:</b> PNAS & Behavioral Genetics Twin Review"}, {"id": "rag-7", "label": "🧪 행복의 유전률(Heritability)과 에피제네틱스(Epigenetics) 환경 상호작용", "group": "rag", "type": "NotebookLM RAG", "color": "#10b981", "size": 20, "details": "<b>주제:</b> 행복의 유전률(Heritability)과 에피제네틱스(Epigenetics) 환경 상호작용<br><b>인사이트:</b> 행복감의 50%를 차지하는 유전성(VG)은 특정 단일 유전자가 아니라 외향성 및 정서 안정성에 관여하는 다유전(Polygenic) 기질입니다. 그러나 나머지 45%의 우연 환경(V_Chance)은 에피제네틱스 스위치 역할을 하여, 소소한 쾌감 자극이 자주 배치된 일상 환경일수록 유전적 셋포인트의 상한선(Upper Bound)에 도달하게 만듭니다.<br><b>출처:</b> Journal of Personality and Social Psychology"}, {"id": "rag-8", "label": "🧪 소소한 즐거움 카드(Joy Micro-Options)와 뇌의 주파수 반응", "group": "rag", "type": "NotebookLM RAG", "color": "#10b981", "size": 20, "details": "<b>주제:</b> 소소한 즐거움 카드(Joy Micro-Options)와 뇌의 주파수 반응<br><b>인사이트:</b> 뇌 정서계는 한 번의 거창한 보상(예: 10억 로또)에 대해 약 2~3주 내 적응 리셋을 완료하지만, 하루 3~4회의 소소한 즐거움(맛있는 커피, 좋아하는 음악, 편안한 대화)에 대해 매번 신선한 긍정 정서 신호를 생성합니다. 행복 구동 공식의 분자(F_pleasure)를 극대화하는 것이 과학적 혜안입니다.<br><b>출처:</b> NotebookLM Synthesis & Psychological Science"}, {"id": "source-1", "label": "🌐 [PPTX] 행복은 과학입니다 (Note", "group": "source", "type": "원천 데이터 출처", "color": "#f43f5e", "size": 18, "details": "<b>종류:</b> PPTX<br><b>제목:</b> 행복은 과학입니다 (NotebookLM Style).pptx<br><b>경로/URL:</b> 행복/행복은 과학입니다 (NotebookLM Style).pptx"}, {"id": "source-2", "label": "🌐 [PPTX] 행복은 과학입니다 (Note", "group": "source", "type": "원천 데이터 출처", "color": "#f43f5e", "size": 18, "details": "<b>종류:</b> PPTX<br><b>제목:</b> 행복은 과학입니다 (NotebookLM Style)-1.pptx<br><b>경로/URL:</b> 행복/행복은 과학입니다 (NotebookLM Style)-1.pptx"}, {"id": "source-3", "label": "🌐 [YouTube] 행복은 과학입니다 (연세대 ", "group": "source", "type": "원천 데이터 출처", "color": "#f43f5e", "size": 18, "details": "<b>종류:</b> YouTube<br><b>제목:</b> 행복은 과학입니다 (연세대 심리학과 서은국 교수)<br><b>경로/URL:</b> https://youtu.be/yR_Cds9lqhw"}, {"id": "source-4", "label": "🌐 [Gemini Share] Gemini Shared C", "group": "source", "type": "원천 데이터 출처", "color": "#f43f5e", "size": 18, "details": "<b>종류:</b> Gemini Share<br><b>제목:</b> Gemini Shared Conversation<br><b>경로/URL:</b> https://share.gemini.google/mR5iqMKV9NXW"}];
+    const rawEdges = [{"from": "hub-master", "to": "concept-1", "label": "개념 결합"}, {"from": "hub-master", "to": "concept-2", "label": "개념 결합"}, {"from": "hub-master", "to": "concept-3", "label": "개념 결합"}, {"from": "hub-master", "to": "concept-4", "label": "개념 결합"}, {"from": "hub-master", "to": "concept-5", "label": "개념 결합"}, {"from": "hub-master", "to": "concept-6", "label": "개념 결합"}, {"from": "hub-master", "to": "formula-1", "label": "수리 모델링"}, {"from": "hub-master", "to": "formula-2", "label": "수리 모델링"}, {"from": "hub-master", "to": "formula-3", "label": "수리 모델링"}, {"from": "hub-master", "to": "rag-1", "label": "딥리서치 RAG"}, {"from": "hub-master", "to": "rag-2", "label": "딥리서치 RAG"}, {"from": "hub-master", "to": "rag-3", "label": "딥리서치 RAG"}, {"from": "hub-master", "to": "rag-4", "label": "딥리서치 RAG"}, {"from": "hub-master", "to": "rag-5", "label": "딥리서치 RAG"}, {"from": "hub-master", "to": "rag-6", "label": "딥리서치 RAG"}, {"from": "hub-master", "to": "rag-7", "label": "딥리서치 RAG"}, {"from": "hub-master", "to": "rag-8", "label": "딥리서치 RAG"}, {"from": "hub-master", "to": "source-1", "label": "원천 데이터"}, {"from": "hub-master", "to": "source-2", "label": "원천 데이터"}, {"from": "hub-master", "to": "source-3", "label": "원천 데이터"}, {"from": "hub-master", "to": "source-4", "label": "원천 데이터"}];
+
+    const nodesData = new vis.DataSet(rawNodes.map(n => ({
+        id: n.id,
+        label: n.label,
+        color: { background: n.color, border: '#ffffff', highlight: { background: '#ffffff', border: n.color } },
+        shape: 'dot',
+        size: n.size,
+        font: { color: '#dcddde', size: 13, face: 'Noto Sans KR' },
+        details: n.details,
+        type: n.type
+    })));
+
+    const edgesData = new vis.DataSet(rawEdges.map(e => ({
+        from: e.from,
+        to: e.to,
+        label: e.label,
+        color: { color: 'rgba(255,255,255,0.15)', highlight: '#a855f7' },
+        font: { color: '#64748b', size: 10 },
+        arrows: { to: { enabled: true, scaleFactor: 0.6 } }
+    })));
+
+    const container = document.getElementById('graph-container');
+    const data = { nodes: nodesData, edges: edgesData };
+    const options = {
+        physics: {
+            solver: 'forceAtlas2Based',
+            forceAtlas2Based: {
+                gravitationalConstant: -50,
+                centralGravity: 0.01,
+                springLength: 100,
+                springConstant: 0.08
+            },
+            maxVelocity: 50,
+            timestep: 0.5,
+            stabilization: { iterations: 150 }
+        },
+        interaction: {
+            hover: true,
+            tooltipDelay: 200,
+            zoomView: true
+        }
+    };
+
+    const network = new vis.Network(container, data, options);
+
+    network.on("click", function (params) {
+        if (params.nodes.length > 0) {
+            const nodeId = params.nodes[0];
+            const node = nodesData.get(nodeId);
+            document.getElementById('node-info').innerHTML = `
+                <span class="node-type-tag" style="background: rgba(168,85,247,0.2); color: #a855f7;">${node.type}</span>
+                <h3 style="color: #ffffff; margin-bottom: 0.8rem;">${node.label}</h3>
+                <div>${node.details}</div>
+            `;
+        }
+    });
+
+    document.getElementById('search').addEventListener('input', function(e) {
+        const val = e.target.value.toLowerCase();
+        if (!val) {
+            nodesData.forEach(n => nodesData.update({ id: n.id, hidden: false }));
+            return;
+        }
+        nodesData.forEach(n => {
+            const match = n.label.toLowerCase().includes(val) || (n.details && n.details.toLowerCase().includes(val));
+            nodesData.update({ id: n.id, hidden: !match });
+        });
+    });
+</script>
+</body>
+</html>
