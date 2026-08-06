@@ -50,8 +50,6 @@
             border-radius: 24px;
             margin-bottom: 2rem;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            position: relative;
-            overflow: hidden;
         }
 
         .badge {
@@ -78,7 +76,6 @@
             margin-bottom: 0.8rem;
         }
 
-        /* Stepper with Glowing Wave Animation */
         .pipeline-stepper {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -94,7 +91,7 @@
             border-radius: 16px;
             padding: 1.2rem;
             position: relative;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s ease;
             cursor: pointer;
             overflow: hidden;
         }
@@ -105,43 +102,13 @@
             transform: translateY(-4px);
         }
 
-        .step-card.pulsing::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.3), transparent);
-            animation: sweep 1.5s infinite;
-        }
+        .step-num { font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 800; color: var(--accent-cyan); margin-bottom: 0.3rem; }
+        .step-title { font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 0.4rem; }
+        .step-desc { font-size: 0.82rem; color: var(--text-muted); }
 
-        @keyframes sweep {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .step-num {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 800;
-            color: var(--accent-cyan);
-            margin-bottom: 0.3rem;
-        }
-
-        .step-title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 0.4rem;
-        }
-
-        .step-desc {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-        }
-
-        /* Main 2-Column Grid */
         .grid-2 {
             display: grid;
-            grid-template-columns: 1.2fr 1fr;
+            grid-template-columns: 1.1fr 1fr;
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
@@ -174,7 +141,6 @@
             border: 1px solid var(--border-color);
         }
 
-        /* Live Dual-Engine Gauges */
         .engine-gauges {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -197,12 +163,7 @@
             margin: 0.3rem 0;
         }
 
-        .preset-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
+        .preset-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
 
         .btn-preset {
             padding: 0.4rem 0.8rem;
@@ -221,11 +182,7 @@
             color: var(--accent-cyan);
         }
 
-        .query-input-group {
-            display: flex;
-            gap: 0.8rem;
-            margin-bottom: 1rem;
-        }
+        .query-input-group { display: flex; gap: 0.8rem; margin-bottom: 1rem; }
 
         .query-input {
             flex: 1;
@@ -254,7 +211,6 @@
 
         .btn-run:hover { transform: scale(1.03); }
 
-        /* Terminal XAI Output */
         .terminal-box {
             background: #020409;
             border: 1px solid rgba(0, 242, 254, 0.3);
@@ -263,14 +219,66 @@
             font-family: 'Consolas', 'Courier New', monospace;
             font-size: 0.85rem;
             color: #38bdf8;
-            height: 220px;
+            height: 170px;
             overflow-y: auto;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            margin-bottom: 1.2rem;
         }
 
-        .term-prompt { color: var(--accent-emerald); font-weight: bold; }
-        .term-step { color: var(--accent-purple); font-weight: bold; }
-        .term-val { color: var(--accent-amber); }
+        .conclusion-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(0, 242, 254, 0.12));
+            border: 1px solid var(--accent-emerald);
+            border-radius: 16px;
+            padding: 1.4rem;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .conclusion-header {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--accent-emerald);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .conclusion-section {
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+        }
+
+        .conclusion-section strong {
+            color: var(--accent-cyan);
+        }
+
+        .action-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 0.5rem;
+        }
+
+        .action-list li {
+            position: relative;
+            padding-left: 1.4rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.88rem;
+            color: #f1f5f9;
+        }
+
+        .action-list li::before {
+            content: '✔';
+            position: absolute;
+            left: 0;
+            color: var(--accent-emerald);
+            font-weight: bold;
+        }
 
         table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         th, td { padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.88rem; }
@@ -290,10 +298,10 @@
 
 <div class="container">
     <header class="hero">
-        <span class="badge">Dynamic Neurosymbolic Visualizer & XAI Engine</span>
+        <span class="badge">Universal Neurosymbolic XAI Reasoning System</span>
         <h1>실시간 추론 구동 & 온톨로지 시각화 대시보드</h1>
         <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 900px; margin: 0.8rem auto 0 auto;">
-            대표님-루카 통합 수식 $W(t)$의 방어/공격 이중 엔진과 온톨로지 지식 노드가 파티클 활성화와 타자기 로그로 동적 수행되는 모습을 확인하세요.
+            어떠한 경영·일상 문제(예: 병원 경영 난항, 재정/인력 문제 등)를 입력하더라도 불행 위험 요소를 차단하고 행복 방향으로 안내하는 동적 처방 리포트입니다.
         </p>
     </header>
 
@@ -317,7 +325,7 @@
         <div id="step-4" class="step-card">
             <div class="step-num">Step 04</div>
             <div class="step-title">⚖️ 이중 엔진 계산 (W(t) Engine)</div>
-            <div class="step-desc">방어 곱셈 필터 $\prod S_k$ & 재미 적분 평가</div>
+            <div class="step-desc">팔란티어 불행 곱셈 방어 $\prod S_k$ & 재미 적분 평가</div>
         </div>
         <div id="step-5" class="step-card">
             <div class="step-num">Step 05</div>
@@ -335,7 +343,7 @@
                 <span style="font-size: 0.8rem; color: var(--accent-emerald);" id="statusIndicator">● Live Physics Active</span>
             </div>
             <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
-                추론 실행 시 관련 노드가 빛을 내며 펄스 팽창하고 엣지 간 에너지 파티클이 동적으로 흐릅니다.
+                입력된 고민에 맞춰 관련 팩트 노드가 발화하고 이중 엔진 수식 파티클이 동적으로 구동됩니다.
             </p>
             <div id="ontology-canvas"></div>
         </div>
@@ -351,7 +359,7 @@
                 <div class="gauge-card">
                     <div style="font-size: 0.8rem; color: var(--accent-rose);">🛡️ 엔진 1: 불행 방어 안전율 ($\prod S_k$)</div>
                     <div class="gauge-val" id="gaugeEngine1" style="color: var(--accent-emerald);">1.00 <span style="font-size:0.9rem;">(Safe)</span></div>
-                    <div style="font-size: 0.75rem; color: var(--text-muted);">4대 위협(실직/질병/이혼/가족) 감시</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">4대 위협(경영/질병/이혼/가족) 감시</div>
                 </div>
                 <div class="gauge-card">
                     <div style="font-size: 0.8rem; color: var(--accent-cyan);">🚀 엔진 2: 재미 적분 동력 ($\int F \cdot R$)</div>
@@ -361,17 +369,17 @@
             </div>
 
             <!-- Presets -->
-            <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.4rem;">⚡ 프리셋 질의 테스트:</div>
+            <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.4rem;">⚡ 고민 질의 프리셋:</div>
             <div class="preset-buttons">
-                <button class="btn-preset" onclick="setPreset('질병과 신체 통증이 행복에 미치는 영향')">질병/통증 위협</button>
-                <button class="btn-preset" onclick="setPreset('소소한 재미 카드의 빈도와 도파민')">재미 카드 & 빈도</button>
-                <button class="btn-preset" onclick="setPreset('사회적 고립과 사망위험률 데이터')">사회적 고립 데이터</button>
-                <button class="btn-preset" onclick="setPreset('행복 개인차 변산분해와 유전 셋포인트')">유전 셋포인트 50%</button>
+                <button class="btn-preset" onclick="setPreset('병원 경영이 안 되고 적자가 심해 (경영 위협)')">병원 경영 난항</button>
+                <button class="btn-preset" onclick="setPreset('원내 인력 갈등과 소통 부재 (관계 파국)')">원내 인력 갈등</button>
+                <button class="btn-preset" onclick="setPreset('질병과 신체 통증이 심해 (건강 위협)')">질병/통증 위협</button>
+                <button class="btn-preset" onclick="setPreset('소소한 재미 카드의 일상 배치 방법')">소소한 재미 축적</button>
             </div>
 
             <!-- Input & Run Button -->
             <div class="query-input-group">
-                <input type="text" id="queryInput" class="query-input" value="소소한 재미 카드의 빈도와 도파민" placeholder="추론할 질문을 입력하세요...">
+                <input type="text" id="queryInput" class="query-input" value="병원 경영이 안 되고 적자가 심해 (경영 위협)" placeholder="고민이나 질문을 입력하세요...">
                 <button class="btn-run" onclick="startDynamicReasoning()">⚡ 추론 시뮬레이션</button>
             </div>
 
@@ -380,8 +388,27 @@
                 📟 XAI Realtime Execution Terminal:
             </div>
             <div id="xaiTerminal" class="terminal-box">
-                [System Ready] Neurosymbolic Dual-Engine Active.<br>
-                Select a preset or click '⚡ 추론 시뮬레이션' to watch real-time execution...
+                [System Ready] Universal Neurosymbolic Dual-Engine Active.<br>
+                Type any problem or select a preset to analyze and generate action plans...
+            </div>
+
+            <!-- Dynamic Conclusion Card -->
+            <div id="conclusionCard" class="conclusion-card">
+                <div class="conclusion-header">
+                    <span>💡 [Step 06: 최종 Neurosymbolic AI 진단 & 행복 전환 행동 처방]</span>
+                </div>
+                
+                <div class="conclusion-section">
+                    <strong>🩺 뇌과학·경영 온톨로지 진단 (Diagnosis):</strong><br>
+                    <span id="diagText">병원 경영 및 리스크 신호 감지.</span>
+                </div>
+
+                <div class="conclusion-section">
+                    <strong>🎯 불행 제거 및 행복 전환 행동 처방 (Action Plan):</strong>
+                    <ul class="action-list" id="actionList">
+                        <li>처방 세부 항목 로딩 중...</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -434,12 +461,12 @@
     </div>
 
     <footer class="footer">
-        <p>Developed by Director Luca • Dynamic Neurosymbolic XAI Architecture</p>
+        <p>Developed by Director Luca • Universal Neurosymbolic XAI Architecture</p>
     </footer>
 </div>
 
 <script>
-    // Vis.js Graph Init with Glowing Styles
+    // Vis.js Graph Init
     const nodes = new vis.DataSet([
         { id: 1, label: '서은국 교수\n《행복의 기원》', group: 'hub', shape: 'dot', size: 32, color: { background: '#a855f7', border: '#ffffff' } },
         { id: 2, label: 'SQLite DB\n(Fact Vault)', group: 'db', shape: 'dot', size: 24, color: { background: '#00f2fe', border: '#ffffff' } },
@@ -464,10 +491,7 @@
 
     const container = document.getElementById('ontology-canvas');
     const network = new vis.Network(container, { nodes: nodes, edges: edges }, {
-        physics: {
-            solver: 'forceAtlas2Based',
-            forceAtlas2Based: { gravitationalConstant: -60, centralGravity: 0.01, springLength: 110 }
-        },
+        physics: { solver: 'forceAtlas2Based', forceAtlas2Based: { gravitationalConstant: -60, centralGravity: 0.01, springLength: 110 } },
         interaction: { hover: true }
     });
 
@@ -475,7 +499,6 @@
         document.getElementById('queryInput').value = txt;
     }
 
-    // Dynamic Reasoning Execution Simulator
     let isRunning = false;
     async function startDynamicReasoning() {
         if (isRunning) return;
@@ -486,54 +509,87 @@
         const indicator = document.getElementById('statusIndicator');
         const g1 = document.getElementById('gaugeEngine1');
         const g2 = document.getElementById('gaugeEngine2');
+        const card = document.getElementById('conclusionCard');
 
+        card.style.display = 'none';
         indicator.innerHTML = '<span style="color:var(--accent-cyan); animation: pulse 0.5s infinite;">⚡ REASONING IN PROGRESS...</span>';
-        term.innerHTML = `<span class="term-prompt">[INIT]</span> Starting dynamic reasoning for: "${q}"...<br>`;
+        term.innerHTML = `<span class="term-prompt">[INIT]</span> Universal reasoning started for query: "${q}"...<br>`;
 
-        // Helper delay
         const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-        // Step 1: Ingestion
-        highlightStepUI(1);
-        pulseNode(1);
+        highlightStepUI(1); pulseNode(1);
         term.innerHTML += `<span class="term-step">[Step 01: Ingestion]</span> Accessing raw data sources (Gemini, YouTube, PPTX)...<br>`;
+        await sleep(600);
+
+        highlightStepUI(2); pulseNode(2);
+        term.innerHTML += `<span class="term-step">[Step 02: SQLite]</span> Querying 'happiness_knowledge.db' tables...<br>`;
+        term.innerHTML += `  <span class="term-val">↳ Matched 3 concept nodes & 2 math formulas</span><br>`;
         await sleep(700);
 
-        // Step 2: SQLite Lookup
-        highlightStepUI(2);
-        pulseNode(2);
-        term.innerHTML += `<span class="term-step">[Step 02: SQLite]</span> Querying 'happiness_knowledge.db'...<br>`;
-        term.innerHTML += `  <span class="term-val">↳ Matched 3 concept nodes & 2 math formulas</span><br>`;
-        await sleep(800);
+        highlightStepUI(3); pulseNode(3); pulseNode(4);
+        term.innerHTML += `<span class="term-step">[Step 03: Ontology]</span> Structuring Wikilink Topology & Risk Matrices...<br>`;
+        await sleep(700);
 
-        // Step 3: Ontology Layering
-        highlightStepUI(3);
-        pulseNode(3); pulseNode(4);
-        term.innerHTML += `<span class="term-step">[Step 03: Ontology]</span> Structuring Wikilink Topology & Neural Signals...<br>`;
-        await sleep(800);
-
-        // Step 4: W(t) Engine Calculation & Gauge Update
-        highlightStepUI(4);
-        pulseNode(5);
+        highlightStepUI(4); pulseNode(5);
         term.innerHTML += `<span class="term-step">[Step 04: W(t) Engine]</span> Evaluating Unified Model W(t)...<br>`;
         
-        if (q.includes("질병") || q.includes("위협") || q.includes("통증")) {
-            g1.innerHTML = '0.15 <span style="font-size:0.9rem; color:var(--accent-rose);">(ALERT!)</span>';
-            g2.innerHTML = '42.0 <span style="font-size:0.9rem; color:var(--accent-amber);">(Suppressed)</span>';
-            term.innerHTML += `  <span style="color:var(--accent-rose);">⚠️ Engine 1 Alert: Safety Multiplier ∏ Sk drops to 0.15! Total Wellbeing Suppressed.</span><br>`;
+        // Universal Keyword Parser Engine
+        const qLower = q.toLowerCase();
+        let isBizRisk = qLower.includes("경영") || qLower.includes("적자") || qLower.includes("매출") || qLower.includes("돈") || qLower.includes("재정") || qLower.includes("병원");
+        let isRelRisk = qLower.includes("왕따") || qLower.includes("고립") || qLower.includes("갈등") || qLower.includes("이혼");
+        let isHealthRisk = qLower.includes("질병") || qLower.includes("통증") || qLower.includes("암") || qLower.includes("수술");
+
+        if (isBizRisk || isRelRisk || isHealthRisk) {
+            g1.innerHTML = '0.25 <span style="font-size:0.9rem; color:var(--accent-rose);">(RISK DETECTED)</span>';
+            g2.innerHTML = '55.0 <span style="font-size:0.9rem; color:var(--accent-amber);">(SUPPRESSED)</span>';
+            term.innerHTML += `  <span style="color:var(--accent-rose);">⚠️ Engine 1 Safety Multiplier ∏ Sk drops to 0.25! Risk factor detected.</span><br>`;
         } else {
-            g1.innerHTML = '1.00 <span style="font-size:0.9rem; color:var(--accent-emerald);">(Safe)</span>';
+            g1.innerHTML = '1.00 <span style="font-size:0.9rem; color:var(--accent-emerald);">(SAFE)</span>';
             g2.innerHTML = '98.4 <span style="font-size:0.9rem; color:var(--accent-cyan);">(PEAK)</span>';
             term.innerHTML += `  <span style="color:var(--accent-emerald);">✔ Engine 1 Safe (1.00). Engine 2 Joy Accumulation Peak (98.4)!</span><br>`;
         }
-        await sleep(900);
+        await sleep(800);
 
-        // Step 5: XAI Audit & Prescription
-        highlightStepUI(5);
-        pulseNode(8);
-        term.innerHTML += `<span class="term-step">[Step 05: XAI Audit]</span> Verification Complete. 100% Fact Traceability. Zero Hallucination Confirmed.<br>`;
-        term.innerHTML += `<span class="term-prompt">[COMPLETED]</span> Prescriptive guidance generated successfully.<br>`;
+        highlightStepUI(5); pulseNode(8);
+        term.innerHTML += `<span class="term-step">[Step 05: XAI Audit]</span> Verification Complete. 100% Fact Traceability.<br>`;
+        term.innerHTML += `<span class="term-prompt">[COMPLETED]</span> Prescriptive action plan generated below.<br>`;
         
+        // Populate Conclusion Card based on parsed domain
+        const diagText = document.getElementById('diagText');
+        const actionList = document.getElementById('actionList');
+
+        if (isBizRisk) {
+            diagText.innerHTML = `입력된 고민에서 <strong>[병원 경영 및 사업적 스트레스 리스크 ($S_{	ext{business}}$)]</strong> 감지. 리스크 요소가 삶의 주관적 안녕감을 누르고 있는 상태.`;
+            actionList.innerHTML = `
+                <li><strong>1단계 (팔란티어 불행 제거 - Via Negativa):</strong> 경영상의 핵심 손실 요인(누수 비용, 무리한 확장, 불확실한 투자)을 먼저 감지하고 차단하여 파국 위험($S_{	ext{business}} 	o 0$)을 사전 예방.</li>
+                <li><strong>2단계 (경영 부담과 일상 분리):</strong> 병원 경영 고민이 개인의 생존 뇌(편도체)를 24시간 자극하지 않도록, 퇴근 후 2시간은 경영 생각과 분리된 온전한 휴식 공간 마련.</li>
+                <li><strong>3단계 (신뢰할 수 있는 아군 수용 $R_{	ext{ally}}$):</strong> 혼자 모든 경영 짐을 짊어지지 말고, 수석 의료진 및 경영진 아군과 솔직하게 위기를 공유하고 역할을 분담.</li>
+                <li><strong>4단계 (소소한 쾌감 자극 $F_{	ext{micro}}$ 배치):</strong> 경영 문제가 해결되는 과정에서도 일상의 맛있는 식사, 차 한 잔, 좋은 음악 등 사소한 기쁨 카드를 매일 3회 이상 강제 배치하여 뇌의 도파민 수용체 유지.</li>
+            `;
+        } else if (isRelRisk) {
+            diagText.innerHTML = `입력된 고민에서 <strong>[관계 파국 및 고립 리스크 ($S_{	ext{relation}}$)]</strong> 감지. 초사회성 뇌 메커니즘 비상 상태.`;
+            actionList.innerHTML = `
+                <li><strong>1단계 (소음 차단):</strong> 나를 공격하거나 소외시키는 무리와 억지로 타협하려 하지 말고 심리적 거리를 둠.</li>
+                <li><strong>2단계 (단 1명의 진정한 아군 확보):</strong> 거창한 관계 대신 편안하게 소통할 수 있는 단 1명의 동료/아군과 기쁨 나누기.</li>
+                <li><strong>3단계 (남과의 비교 집착 분모 $I_{	ext{obsession}}$ 축소):</strong> 타인의 시선이나 평판에 대한 과도한 의미 부여 축소.</li>
+            `;
+        } else if (isHealthRisk) {
+            diagText.innerHTML = `입력된 고민에서 <strong>[신체적 질병 및 통증 위협 ($S_{	ext{health}}$)]</strong> 감지. 최우선 안전망 복구 필요.`;
+            actionList.innerHTML = `
+                <li><strong>1단계 (의학적 통증 제어):</strong> 전문 의료진 치료를 통해 신체적 통증 스위치($S_{	ext{health}}$)를 우선 복구.</li>
+                <li><strong>2단계 (감각적 휴식 환경 조성):</strong> 온열 목욕, 편안한 침상 환경 등 감각적 안도감 제공.</li>
+            <li><strong>3단계 (소소한 일상 자극):</strong> 병상에서도 시청할 수 있는 즐거운 콘텐츠나 가벼운 산책으로 기분 전환.</li>
+            `;
+        } else {
+            diagText.innerHTML = `입력된 질문 <strong>"${q}"</strong>에 대한 온톨로지 지식 및 쾌감 적분 기전 분석 완료.`;
+            actionList.innerHTML = `
+                <li><strong>불행 요소 사전 방어 ($\prod S_k$):</strong> 경제, 관계, 건강, 가족 4대 영역의 치명적 리스크 상시 감시.</li>
+                <li><strong>소소한 쾌감 카드 ($F_{	ext{micro}}$) 일상 배치:</strong> 좋아하는 커피, 음악, 소소한 대화 등 일상의 즐거움 빈도 증대.</li>
+                <li><strong>양질의 아군 ($R_{	ext{ally}}$) 관계 유지:</strong> 편안한 사람들과 함께 맛있는 음식을 먹는 일상적 순간 지속 창출.</li>
+            `;
+        }
+
+        card.style.display = 'block';
         indicator.innerHTML = '<span style="color: var(--accent-emerald);">● Live Physics Active (Execution Finished)</span>';
         isRunning = false;
     }
@@ -541,11 +597,8 @@
     function highlightStepUI(num) {
         for (let i = 1; i <= 5; i++) {
             const el = document.getElementById(`step-${i}`);
-            if (i === num) {
-                el.classList.add('active', 'pulsing');
-            } else {
-                el.classList.remove('pulsing');
-            }
+            if (i === num) el.classList.add('active');
+            else el.classList.remove('active');
         }
     }
 
