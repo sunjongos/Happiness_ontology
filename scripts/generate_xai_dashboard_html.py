@@ -2,14 +2,11 @@
 # -*- coding: utf-8 -*-
 """
 ===============================================================================
-🌟 World-Class Dynamic Neurosymbolic XAI & Responsible AI Master Dashboard Generator
+🌟 World-Class Dynamic Neurosymbolic XAI Master Visualizer + Cinematic Happiness Prescription Modal
 ===============================================================================
-5회 루프 자가 진화 파이프라인 (Harness Loop):
-1. 딥 NLP 온톨로지 키워드-콘셉트 파서 (SQLite 데이터베이스 전역 매핑)
-2. W(t) 동적 시계열 추이 그래프 (Chart.js 365일 시뮬레이션)
-3. 팔란티어 4축 리스크 레이더 차트 (건강, 경영/재정, 관계, 가족)
-4. 실천형 체크리스트 & 팩트 트레이서 (Responsible AI Source Traceability)
-5. KaTeX 수식 렌더링 & 글래스모피즘 시네마틱 UI
+'최종 결론 상세보기' 버튼 클릭 시, 따뜻한 행복 시각 에셋과 4축 리스크 레이더, 
+3D 쾌감 펄스 카드, 인쇄/PDF 저장 기능이 포함된 시네마틱 진단 & 행동 처방 뷰로 전이되는 
+통합 대시보드 스크립트입니다.
 """
 
 import os
@@ -38,18 +35,10 @@ def generate_master_xai_dashboard():
     cur.execute("SELECT formula_name, latex_expression, implication FROM formulas")
     formulas = [dict(zip(['name', 'latex', 'imp'], row)) for row in cur.fetchall()]
 
-    cur.execute("SELECT source_type, title, url_or_path FROM sources")
-    sources = [dict(zip(['type', 'title', 'path'], row)) for row in cur.fetchall()]
-
-    cur.execute("SELECT notebook_id, topic, insight_content FROM notebooklm_insights")
-    insights = [dict(zip(['name', 'topic', 'findings'], row)) for row in cur.fetchall()]
-
     conn.close()
 
     concepts_json = json.dumps(concepts, ensure_ascii=False)
     formulas_json = json.dumps(formulas, ensure_ascii=False)
-    sources_json = json.dumps(sources, ensure_ascii=False)
-    insights_json = json.dumps(insights, ensure_ascii=False)
 
     html_str = """<!DOCTYPE html>
 <html lang="ko">
@@ -280,7 +269,7 @@ def generate_master_xai_dashboard():
         /* Conclusion & Charts Grid */
         .analytics-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.1fr 1fr;
             gap: 1.5rem;
             margin-top: 1.5rem;
         }
@@ -309,14 +298,110 @@ def generate_master_xai_dashboard():
             margin-bottom: 0.8rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: space-between;
         }
+
+        .btn-modal-open {
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, var(--accent-amber), var(--accent-rose));
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 0.88rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .btn-modal-open:hover { transform: scale(1.05); }
 
         .action-checkbox {
             margin-right: 0.5rem;
             transform: scale(1.2);
             cursor: pointer;
         }
+
+        /* Full Visual Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(4, 7, 17, 0.95);
+            backdrop-filter: blur(25px);
+            z-index: 9999;
+            display: none;
+            overflow-y: auto;
+            padding: 2rem 1rem;
+        }
+
+        .modal-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 28px;
+            padding: 2.5rem;
+            box-shadow: 0 0 60px rgba(0, 242, 254, 0.3);
+            position: relative;
+        }
+
+        .btn-close-modal {
+            position: absolute;
+            top: 1.5rem; right: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border-color);
+            color: #ffffff;
+            font-size: 1.5rem;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .modal-hero-visual {
+            height: 220px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(16, 185, 129, 0.3), rgba(0, 242, 254, 0.3)),
+                        url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .visual-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+        }
+
+        .joy-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 900px) { .joy-cards-grid { grid-template-columns: 1fr; } }
+
+        .joy-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .joy-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-4px);
+        }
+
+        .joy-card-icon { font-size: 2.2rem; margin-bottom: 0.6rem; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         th, td { padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.88rem; }
@@ -336,7 +421,7 @@ def generate_master_xai_dashboard():
 
 <div class="container">
     <header class="hero">
-        <span class="badge">Master Neurosymbolic Decision Support System (5-Iteration Refined)</span>
+        <span class="badge">Master Neurosymbolic Decision Support System</span>
         <h1>자율진화 Neurosymbolic XAI 실시간 추론 대시보드</h1>
         <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 950px; margin: 0.8rem auto 0 auto;">
             어떠한 경영·인생 문제를 입력하더라도 <strong>팔란티어 불행 제거 곱셈 방어($\prod S_k$)</strong>와 <strong>쾌감·아군 축적 적분 공격($\int F \cdot R$)</strong>을 통해 지속 가능한 행복으로 전환시키는 최고 지능 파이프라인입니다.
@@ -436,6 +521,7 @@ def generate_master_xai_dashboard():
     <div id="conclusionCard" class="conclusion-card">
         <div class="conclusion-header">
             <span>💡 [Step 06: 최종 Neurosymbolic AI 진단 & 행복 전환 행동 처방 리포트]</span>
+            <button class="btn-modal-open" onclick="openVisualModal()">🖼️ 시네마틱 행복 리포트 뷰 (상세보기)</button>
         </div>
         
         <div class="analytics-grid">
@@ -457,7 +543,7 @@ def generate_master_xai_dashboard():
             <!-- Right: Dynamic Chart Simulation -->
             <div>
                 <strong style="color:var(--accent-purple);">📈 W(t) 365일 행복도 추이 동적 시뮬레이션:</strong>
-                <div style="height: 250px; background: rgba(0,0,0,0.4); border-radius: 12px; padding: 0.8rem; margin-top: 0.6rem;">
+                <div style="height: 240px; background: rgba(0,0,0,0.4); border-radius: 12px; padding: 0.8rem; margin-top: 0.6rem;">
                     <canvas id="wtChart"></canvas>
                 </div>
             </div>
@@ -516,6 +602,55 @@ def generate_master_xai_dashboard():
     </footer>
 </div>
 
+<!-- FULL CINEMATIC VISUAL PRESCRIPTION MODAL -->
+<div id="visualModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="btn-close-modal" onclick="closeVisualModal()">&times;</button>
+        
+        <div class="modal-hero-visual">
+            <div class="visual-title">🌟 [최종 비전] 불행에서 벗어난 지속 가능한 행복의 삶</div>
+        </div>
+
+        <div style="font-size: 1.1rem; color: var(--accent-cyan); font-weight: 700; margin-bottom: 0.5rem;">
+            📐 대표님-루카 통합 수식 기반 맞춤형 리포트
+        </div>
+        <p id="modalDiagDesc" style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">
+            현재 입력된 리스크를 팔란티어 곱셈 방어 스위치($\\prod S_k$)로 완전히 차단하고, 일상의 소소한 쾌감 카드($F_{\\text{micro}}$)와 양질의 아군($R_{\\text{ally}}$)을 배치하였을 때의 시네마틱 비전입니다.
+        </p>
+
+        <!-- 3D Joy Cards Grid -->
+        <div class="joy-cards-grid">
+            <div class="joy-card">
+                <div class="joy-card-icon">🛡️</div>
+                <h3 style="color: var(--accent-rose); font-size: 1.1rem; margin-bottom: 0.4rem;">1. 불행 0점 방어 스위치</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">
+                    경영/경제/질병/관계 파국을 0이 되지 않게 상시 시스템 방어. 안심의 바닥(Baseline)을 받쳐줍니다.
+                </p>
+            </div>
+            <div class="joy-card">
+                <div class="joy-card-icon">☕</div>
+                <h3 style="color: var(--accent-amber); font-size: 1.1rem; margin-bottom: 0.4rem;">2. 일상 쾌감 자극 빈도</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">
+                    맛있는 식사, 차 한 잔, 음악 등 사소한 기쁨 카드를 매일 3회 이상 강제 배치하여 도파민 공급.
+                </p>
+            </div>
+            <div class="joy-card">
+                <div class="joy-card-icon">🤝</div>
+                <h3 style="color: var(--accent-emerald); font-size: 1.1rem; margin-bottom: 0.4rem;">3. 단 1명의 진정한 아군</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">
+                    나를 편안하게 해주는 무조건적 아군과 기쁨을 나누어 세로토닌과 옥시토신 전구 활성화.
+                </p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2.5rem;">
+            <button class="btn-run" onclick="window.print()" style="background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan)); font-size: 1rem;">
+                🖨️ 시네마틱 행복 리포트 인쇄 / PDF 저장
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
     // Vis.js Graph Init
     const nodes = new vis.DataSet([
@@ -546,9 +681,15 @@ def generate_master_xai_dashboard():
         interaction: { hover: true }
     });
 
-    // Chart.js W(t) Simulation
-    let wtChartInstance = null;
+    // Modal Control Functions
+    function openVisualModal() {
+        document.getElementById('visualModal').style.display = 'block';
+    }
+    function closeVisualModal() {
+        document.getElementById('visualModal').style.display = 'none';
+    }
 
+    let wtChartInstance = null;
     function renderWtChart(initialSk, joyRate) {
         const ctx = document.getElementById('wtChart').getContext('2d');
         const days = Array.from({length: 12}, (_, i) => `${(i+1)*30}일`);
@@ -655,7 +796,7 @@ def generate_master_xai_dashboard():
 
         highlightStepUI(5); pulseNode(8);
         term.innerHTML += `<span class="term-step">[Step 05: XAI Audit]</span> Verification Complete. 100% Fact Traceability.<br>`;
-        term.innerHTML += `<span class="term-prompt">[COMPLETED]</span> Prescriptive action plan & Chart generated below.<br>`;
+        term.innerHTML += `<span class="term-prompt">[COMPLETED]</span> Click '🖼️ 시네마틱 행복 리포트 뷰' to open full visual report.<br>`;
         
         const diagText = document.getElementById('diagText');
         const actionList = document.getElementById('actionList');
@@ -724,7 +865,7 @@ def generate_master_xai_dashboard():
     with open(DOWNLOAD_HTML, "w", encoding="utf-8") as f:
         f.write(html_str)
 
-    print(f"✅ Master 5-Iteration Dynamic Neurosymbolic Visualizer Generated: {OUTPUT_HTML}")
+    print(f"✅ Master Dynamic Visualizer with Cinematic Modal Generated: {OUTPUT_HTML}")
     print(f"✅ Copied directly to Downloads: {DOWNLOAD_HTML}")
 
 if __name__ == "__main__":
