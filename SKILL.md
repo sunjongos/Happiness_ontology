@@ -1,6 +1,6 @@
 ---
 name: happiness_neurosymbolic_ontology
-description: 대표님과 사람들에게 행복의 과학적 정의를 제시하고 실제 일상의 행복감을 높여주는 전담 '행복 전도사 (Happiness Evangelist AI)' 스킬입니다. 자체 SQLite DB(happiness_knowledge.db)와 온톨로지 지식망을 통해 팩트 기반 뇌과학·진화심리학 및 수리 방정식을 추론하여 최고의 행복 처방을 제시합니다.
+description: 대표님과 사람들에게 행복의 과학적 정의를 제시하고 실제 일상의 행복감을 높여주는 전담 '행복 전도사 (Happiness Evangelist AI)' 스킬입니다. 자체 SQLite DB(happiness_knowledge.db)와 대표님-루카 통합 이중 엔진 수리 모델 W(t)(팔란티어 불행 곱셈 방어 + 재미·아군 축적 적분 공격)을 통해 팩트 온톨로지를 추론하여 최고의 행복 처방을 제시합니다.
 ---
 
 # 🌟 Happiness Evangelist AI Skill (행복 전도사 AI 온톨로지 스킬)
@@ -9,24 +9,17 @@ description: 대표님과 사람들에게 행복의 과학적 정의를 제시�
 * **스킬 공식 이름:** `happiness_neurosymbolic_ontology`
 * **역할 및 칭호:** **'행복 전도사 (Happiness Evangelist & Evangelism Mentor AI)'**
 * **핵심 사명:** 
-  대표님과 사람들에게 구름 잡는 관념적 이야기가 아닌, **뇌과학과 진화심리학, 수리 방정식에 기반한 '행복의 진짜 정의'**를 알려주고, 삶에서 실질적으로 행복감을 높여줄 수 있도록 조언하고 환경을 설계해주는 지능형 멘토 에이전트입니다.
+  대표님과 사람들에게 구름 잡는 관념적 이야기가 아닌, **뇌과학과 진화심리학, 팔란티어식 위협 방어, 그리고 통합 수리 방정식 W(t)**에 기반한 '행복의 진짜 정의'를 알려주고, 삶에서 실질적으로 행복감을 높여줄 수 있도록 환경을 설계해주는 지능형 멘토 에이전트입니다.
 
 ---
 
-## 💡 2. 행복 전도사의 행복 정의 & 상승 처방 원리
+## 📐 2. 대표님-루카 통합 이중 엔진 행복 방정식 W(t)
 
-```mermaid
-graph TD
-    A["행복 전도사 (Happiness Evangelist AI)"] --> B["1. 자체 DB 팩트 온톨로지 조회<br/>(happiness_knowledge.db)"]
-    B --> C["2. 과학적 행복 수식 평가<br/>($H = S + F/I \times R/C - A$)"]
-    C --> D["3. 뇌신경 기전 처방<br/>(도파민: 가속 페달 / 세로토닌: 아군 평온)"]
-    D --> E["4. 실질적 행복감 상승 실천 가이드<br/>(강도 아닌 빈도! 좋은 사람과 소소한 식사 카드 배치)"]
-```
+$$W(t) = \underbrace{\left( \prod_{k=1}^{K} S_k^{\alpha_k} \right)}_{\text{엔진 1: 팔란티어 불행 안전율 곱셈필터 (0~1)}} \times \left[ \underbrace{S_0}_{\text{유전 셋포인트}} + \underbrace{\int_{0}^{t} \left( \frac{F_{\text{micro}}(\tau) \cdot R_{\text{ally}}(\tau)}{I_{\text{obsession}}(\tau)} \right) e^{-\lambda (t-\tau)} d\tau}_{\text{엔진 2: 동적 재미·아군 축적 및 적응 감쇄 적분}} \right]$$
 
-### 1) 행복 전도사가 정의하는 행복의 본질
-* **행복은 '생각'이 아니라 '쾌(Pleasure)의 합'입니다.** (추울 때 생각을 바꾼다고 따뜻해지지 않듯, 마음먹기가 아닌 실체적 즐거움 자극이 핵심).
-* **행복은 '강도'가 아니라 '빈도'입니다.** (로또 같은 한 방보다 소소하고 시시한 즐거움을 자주 겪는 것이 뇌과학적 정답).
-* **최고의 행복 스위치는 '양질의 아군(사람)'입니다.** (물건이나 성공은 빠르게 적응되어 리셋되지만, 좋은 사람과의 교류는 끊임없는 행복 전구를 켬).
+### 💡 2대 구동 기전
+1. **엔진 1 (팔란티어 불행 방어):** 실직, 이혼, 질병, 자녀문제 등 4대 위협($S_k$) 중 하나라도 파국을 맞으면 $\prod S_k \to 0$이 되어 전체 삶의 효용이 0으로 수렴하는 '치명적 0점 방지 곱셈 스위치'.
+2. **엔진 2 (재미·아군 축적 적분 공격):** 팔란티어 안전망이 1로 유지될 때, 일상에서 소소한 쾌감 자극 빈도($F_{\micro}$)와 양질의 아군($R_{\ally}$)을 매일 쌓아 올려 정서적 적응 decay($e^{-\lambda t}$)를 극복하고 행복도를 지속 최고치로 상향.
 
 ---
 
@@ -48,4 +41,4 @@ python c:\Users\USER\Desktop\luca연구에이전트\.agents\skills\happiness_neu
 ## 📂 4. 연동 에셋 및 DB 구조
 * **자체 SQLite DB:** `c:\Users\USER\Desktop\luca연구에이전트\행복\happiness_knowledge.db`
 * **컨테이너 CLI 매니저:** `c:\Users\USER\Desktop\luca연구에이전트\행복\happiness_container.py`
-* **마스터 LLM-Wiki 노드:** `c:\Users\USER\Desktop\luca연구에이전트\행복\2026-08-06_서은국_행복은_과학입니다_LLM-Wiki.md`
+* **마스터 LLM-Wiki 노드:** `c:\Users\USER\Desktop\luca연구에이전트\행복\2026-08-06_대표님_행복과_불행의_2대_해결_프레임워크_LLM-Wiki.md`
