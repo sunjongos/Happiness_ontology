@@ -112,3 +112,10 @@ python scripts/generate_obsidian_graph_html.py
 
 * Developed by **Director Luca** & **Antigravity Neurosymbolic Core**
 * Academic Basis: 연세대학교 심리학과 서은국 교수 《행복의 기원》
+
+---
+
+## 🌐 Live Firebase Web Deployment
+* **Official Live Production URL:** [https://happiness-neurosymbolic-ai.web.app](https://happiness-neurosymbolic-ai.web.app)
+* **Secondary Domain:** [https://happiness-neurosymbolic-ai.firebaseapp.com](https://happiness-neurosymbolic-ai.firebaseapp.com)
+* **Status:** 🟢 Live & Operational (Deploy Completed)
